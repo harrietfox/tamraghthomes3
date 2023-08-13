@@ -1,0 +1,953 @@
+backend:
+  name: git-gateway
+  accept_roles:
+    - admin
+    - editor
+  branch: master
+media_folder: theme/assets/images
+public_folder: /assets/images
+collections:
+  - name: pages
+    label: Pages
+    identifier_field: title
+    extension: md
+    create: false
+    delete: false
+    slug: '{{slug}}'
+    editor:
+      preview: false
+    folder: cms/pages
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '{{slug}}.html'
+      - &ref_0
+        label: Seo
+        name: seo
+        widget: object
+        collapsed: true
+        fields:
+          - label: Title
+            name: title
+            widget: string
+            required: false
+          - label: Description
+            name: description
+            widget: string
+            required: false
+          - label: No index
+            name: noindex
+            widget: boolean
+            default: false
+            required: false
+          - label: Open Graph Title
+            name: og:title
+            widget: string
+            required: false
+          - label: Open Graph Image
+            name: og:image
+            widget: image
+            required: false
+            media_library:
+              config:
+                multiple: false
+          - label: Twitter Title
+            name: twitter:title
+            widget: string
+            default: summary
+            required: false
+          - label: Twitter Card
+            name: twitter:card
+            widget: string
+            default: summary
+            required: false
+          - label: Twitter Site
+            name: twitter:site
+            widget: string
+            required: false
+          - label: Twitter Creator
+            name: twitter:creator
+            widget: string
+            required: false
+          - label: Additional HTML tags
+            name: additional_tags
+            widget: text
+            required: false
+  - name: guide_posts
+    label: Guide Posts
+    folder: cms/guide-posts
+    create: true
+    identifier_field: name
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - hint: ''
+        name: title
+        label: Name
+        widget: string
+        required: true
+      - hint: ''
+        name: created-on
+        label: Created On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: updated-on
+        label: Updated On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: published-on
+        label: Published On
+        widget: datetime
+        required: false
+      - label: Blog Post
+        name: body
+        widget: markdown
+        required: false
+      - hint: ''
+        name: f_image-1
+        label: Image 1
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_image-2
+        label: Image 2
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - label: Tags
+        widget: hidden
+        name: tags
+        default: guide-posts
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '[guide-posts].html'
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - *ref_0
+  - name: listings
+    label: Listings
+    folder: cms/listings
+    create: true
+    identifier_field: name
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - hint: ''
+        name: title
+        label: Name
+        widget: string
+        required: true
+      - hint: ''
+        name: created-on
+        label: Created On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: updated-on
+        label: Updated On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: published-on
+        label: Published On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: f_photos
+        label: Photos
+        widget: list
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_description
+        label: Description
+        widget: string
+        required: false
+      - hint: ''
+        name: f_photo
+        label: Photo
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_listings-type
+        label: Listings Type
+        widget: select
+        required: false
+        options:
+          - label: Sales
+            value: Sales
+          - label: Long Term Rent
+            value: Long Term Rent
+          - label: Short Term Rent
+            value: Short Term Rent
+          - label: Land & New Homes
+            value: Land & New Homes
+      - hint: ''
+        name: f_video
+        label: Video
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Url
+            widget: string
+            required: false
+      - label: Tags
+        widget: hidden
+        name: tags
+        default: listings
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '[listings].html'
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - *ref_0
+  - label: Theme Settings
+    name: settings
+    identifier_field: title
+    extension: json
+    create: false
+    delete: false
+    slug: '{{slug}}'
+    editor:
+      preview: false
+    files:
+      - label: General
+        name: site
+        file: cms/_data/settings/site.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: General
+          - hint: Full domain url (needed for a correct sitemap file)
+            name: domain
+            label: Domain
+            widget: string
+            required: false
+          - name: favicon
+            label: Favicon
+            widget: image
+            allow_multiple: false
+            required: false
+          - name: apple_touch_icon
+            label: Apple Touch Icon
+            widget: image
+            allow_multiple: false
+            required: false
+          - name: header_additional_content
+            label: Additional Content Header
+            hint: Content here will be placed before </head> tag
+            widget: text
+            required: false
+          - name: footer_additional_content
+            label: Additional Content Footer
+            hint: Content here will be placed before </body> tag
+            widget: text
+            required: false
+          - name: images_optimization
+            label: Images Optimization
+            widget: object
+            collapsed: false
+            fields:
+              - label: Image Formats
+                name: formats
+                widget: select
+                multiple: true
+                options:
+                  - label: Avif
+                    value: avif
+                  - label: Webp
+                    value: webp
+              - label: Image Dimensions
+                name: dimensions
+                widget: select
+                multiple: true
+                options:
+                  - label: '500'
+                    value: 500
+                  - label: '800'
+                    value: 800
+                  - label: '1080'
+                    value: 1080
+                  - label: '1600'
+                    value: 1600
+                  - label: '2000'
+                    value: 2000
+                  - label: '2600'
+                    value: 2600
+      - label: Colors
+        name: colors
+        file: cms/_data/colors.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Colors
+      - label: Texts
+        name: texts
+        file: cms/_data/texts.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Texts
+          - hint: 'Original text: Sales, key: 4bf58ec'
+            label: Text
+            name: 4bf58ec
+            widget: string
+          - hint: 'Original text: Long term, key: 7b9d3b70'
+            label: Text
+            name: 7b9d3b70
+            widget: string
+          - hint: 'Original text:  reNTALS, key: 3b77cb8f'
+            label: Text
+            name: 3b77cb8f
+            widget: string
+          - hint: 'Original text: sHORT TERM, key: 1ba1d90'
+            label: Text
+            name: 1ba1d90
+            widget: string
+          - hint: 'Original text:  RENTALS, key: 68154f8f'
+            label: Text
+            name: 68154f8f
+            widget: string
+          - hint: 'Original text: FREE , key: 400bf34'
+            label: Text
+            name: 400bf34
+            widget: string
+          - hint: 'Original text: Resources, key: 13ede05'
+            label: Text
+            name: 13ede05
+            widget: string
+          - hint: 'Original text: Tamraght Homes, key: -5129f828'
+            label: Text
+            name: '-5129f828'
+            widget: string
+          - hint: 'Original text: Where you live Matters, key: b099318'
+            label: Text
+            name: b099318
+            widget: string
+          - hint: >-
+              Original text: Properties for rent & Sale in Souss-Masaa, key:
+              6b68544c
+            label: Text
+            name: 6b68544c
+            widget: string
+          - hint: 'Original text: SALES, key: 4b050ec'
+            label: Text
+            name: 4b050ec
+            widget: string
+          - hint: 'Original text: Long Term Rentals, key: -238f84e1'
+            label: Text
+            name: '-238f84e1'
+            widget: string
+          - hint: 'Original text: SHORT TERM RENTALS, key: -5b5b66c1'
+            label: Text
+            name: '-5b5b66c1'
+            widget: string
+          - hint: 'Original text: LAND & NEW HOMES, key: -10c5d57b'
+            label: Text
+            name: '-10c5d57b'
+            widget: string
+          - hint: 'Original text: ABOUT Us, key: -70d4fbaf'
+            label: Text
+            name: '-70d4fbaf'
+            widget: string
+          - hint: 'Original text: AREAS WE COVER, key: 269d713f'
+            label: Text
+            name: 269d713f
+            widget: string
+          - hint: 'Original text: TAMRAGHT HOUSES FOR SALE & RENT, key: 43babb44'
+            label: Text
+            name: 43babb44
+            widget: string
+          - hint: 'Original text: Abdulfattah, key: -446fbf84'
+            label: Text
+            name: '-446fbf84'
+            widget: string
+          - hint: 'Original text: Typically replies in a few hours, key: -7eec8298'
+            label: Text
+            name: '-7eec8298'
+            widget: string
+          - hint: 'Original text: AbDulfattah, key: 3302605c'
+            label: Text
+            name: 3302605c
+            widget: string
+          - hint: 'Original text: How may I be of assistance? 😊, key: -2e666e8c'
+            label: Text
+            name: '-2e666e8c'
+            widget: string
+          - hint: 'Original text: Start Whatsapp Chat, key: -21c3aa38'
+            label: Text
+            name: '-21c3aa38'
+            widget: string
+          - hint: 'Original text: About US , key: 27808a0f'
+            label: Text
+            name: 27808a0f
+            widget: string
+          - hint: 'Original text: ‍, key: 200d'
+            label: Text
+            name: 200d
+            widget: string
+          - hint: >-
+              Original text: Abdulfattah has over twenty years of experience in
+              estate agency. He is fluent in darija, french and English.
+              Abdulfattah has an in depth knowledge of the area of Souss Massa
+              and his speciality is sourcing property for clients that are not
+              openly for sale. TEll him what you want and he will find it!, key:
+              -56dfecc9
+            label: Text
+            name: '-56dfecc9'
+            widget: text
+          - hint: 'Original text: Harriet, key: -733d60e1'
+            label: Text
+            name: '-733d60e1'
+            widget: string
+          - hint: >-
+              Original text: Harriet is a former lettings Agent and interior
+              designer from the united Kingdom. She provides Abdulfattah with
+              auxillary support as well as helping clients furnish their new
+              homes.. , key: 6be10fb9
+            label: Text
+            name: 6be10fb9
+            widget: text
+          - hint: 'Original text: Areas We Cover, key: -503226a1'
+            label: Text
+            name: '-503226a1'
+            widget: string
+          - hint: 'Original text: Illustration by Shannon LUnd, key: 7c12004d'
+            label: Text
+            name: 7c12004d
+            widget: string
+          - hint: "Original text: We provide our services from Agadir\_\_to IMI Ouaddar, however if we feel we can add value we source properties for clients further afield, if you feel this is you please don't hesitate to contact us., key: -75ff9d31"
+            label: Text
+            name: '-75ff9d31'
+            widget: text
+          - hint: 'Original text: Contact US, key: 7f2746be'
+            label: Text
+            name: 7f2746be
+            widget: string
+          - hint: >-
+              Original text:  Please don't hesitate to contact us..., key:
+              9df13d4
+            label: Text
+            name: 9df13d4
+            widget: string
+          - hint: 'Original text: Name, key: 24eeab'
+            label: Text
+            name: 24eeab
+            widget: string
+          - hint: 'Original text: Email Address, key: -2b7010d0'
+            label: Text
+            name: '-2b7010d0'
+            widget: string
+          - hint: 'Original text: Message, key: -63dc6819'
+            label: Text
+            name: '-63dc6819'
+            widget: string
+          - hint: >-
+              Original text: Thank you! Your submission has been received!, key:
+              5a0ea5a1
+            label: Text
+            name: 5a0ea5a1
+            widget: string
+          - hint: >-
+              Original text: Oops! Something went wrong while submitting the
+              form., key: -7c112e99
+            label: Text
+            name: '-7c112e99'
+            widget: string
+          - hint: 'Original text: Long term Rentals, key: -2d5ad901'
+            label: Text
+            name: '-2d5ad901'
+            widget: string
+          - hint: 'Original text: Properties for Sale , key: 94bbff5'
+            label: Text
+            name: 94bbff5
+            widget: string
+          - hint: 'Original text: See More, key: 3b180342'
+            label: Text
+            name: 3b180342
+            widget: string
+          - hint: >-
+              Original text:  Have Questions? Can't find what you're looking
+              for?, key: -1c93fc36
+            label: Text
+            name: '-1c93fc36'
+            widget: string
+          - hint: 'Original text: No items found., key: 3d503d2b'
+            label: Text
+            name: 3d503d2b
+            widget: string
+          - hint: 'Original text: Short Term Rentals, key: 4a01f95f'
+            label: Text
+            name: 4a01f95f
+            widget: string
+          - hint: 'Original text: Land & New Homes for Sale , key: -6d602539'
+            label: Text
+            name: '-6d602539'
+            widget: string
+          - hint: 'Original text: Page not found, key: 49a057c4'
+            label: Text
+            name: 49a057c4
+            widget: string
+          - hint: 'Original text: 404, key: c938'
+            label: Text
+            name: c938
+            widget: string
+          - hint: >-
+              Original text: The page you are looking for doesn't exist or has
+              been moved., key: 583f3656
+            label: Text
+            name: 583f3656
+            widget: string
+          - hint: 'Original text: Back to Homepage, key: 66ef27a'
+            label: Text
+            name: 66ef27a
+            widget: string
+          - hint: 'Original text: Our Guide to life in Morocco, key: -1d907d94'
+            label: Text
+            name: '-1d907d94'
+            widget: string
+          - hint: 'Original text: Find out more, key: 4ef7574e'
+            label: Text
+            name: 4ef7574e
+            widget: string
+      - label: Links
+        name: links
+        file: cms/_data/links.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Links
+          - hint: 'Original link: /, key: 2f'
+            label: Link
+            name: 2f
+            widget: string
+          - hint: 'Original link: tel:+212667723693, key: 55411468'
+            label: Link
+            name: '55411468'
+            widget: string
+          - hint: >-
+              Original link:
+              mailto:tamraghthomes@gmail.com?subject=Tamraght%20Homes, key:
+              -2af353b4
+            label: Link
+            name: '-2af353b4'
+            widget: string
+          - hint: 'Original link: https://wa.me/+212667723693, key: 2aa948c5'
+            label: Link
+            name: 2aa948c5
+            widget: string
+          - hint: 'Original link: /sales/, key: -7ff4466e'
+            label: Link
+            name: '-7ff4466e'
+            widget: string
+          - hint: 'Original link: /long-term-rentals/, key: -2d9994a1'
+            label: Link
+            name: '-2d9994a1'
+            widget: string
+          - hint: 'Original link: /short-term-rentals/, key: -17ced9f'
+            label: Link
+            name: '-17ced9f'
+            widget: string
+          - hint: 'Original link: /useful-info-resources/, key: -40d4cd1f'
+            label: Link
+            name: '-40d4cd1f'
+            widget: string
+          - hint: 'Original link: /land-new-homes/, key: 55c0b91b'
+            label: Link
+            name: 55c0b91b
+            widget: string
+          - hint: 'Original link: #About-US, key: -5645a5df'
+            label: Link
+            name: '-5645a5df'
+            widget: string
+          - hint: 'Original link: #Areas, key: 3f82ef23'
+            label: Link
+            name: 3f82ef23
+            widget: string
+          - hint: 'Original link: https://wa.me/+447826020616, key: 654863b'
+            label: Link
+            name: 654863b
+            widget: string
+          - hint: >-
+              Original link: https://shannonlund.wixsite.com/illustration, key:
+              -4eb60a4e
+            label: Link
+            name: '-4eb60a4e'
+            widget: string
+          - hint: 'Original link: #, key: 23'
+            label: Link
+            name: '23'
+            widget: string
+      - label: Images
+        name: images
+        file: cms/_data/images.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Images
+          - label: Image
+            name: 2d93b7ba
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i21f6c4c7
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 129c7876
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 1108d6ea
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 313752c3
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 74ff0df
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 225c36d2
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 73b82f39
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i3c3f2163
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i1390880e
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 29fd3603
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-715ee28'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 7b6ebd4c
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-696592de'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-2100992a'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-174e1ee0'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-6a41b58'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-56716b2c'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-46ba506b'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 78f41cc2
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-2b802d87'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-6153e412'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 2d7f37b5
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+publish_mode: editorial_workflow
