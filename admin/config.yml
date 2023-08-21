@@ -548,6 +548,14 @@ collections:
             label: Text
             name: '-6d602539'
             widget: string
+          - hint: 'Original text: Our Guide to life in Morocco, key: -1d907d94'
+            label: Text
+            name: '-1d907d94'
+            widget: string
+          - hint: 'Original text: Find out more, key: 4ef7574e'
+            label: Text
+            name: 4ef7574e
+            widget: string
           - hint: 'Original text: Page not found, key: 49a057c4'
             label: Text
             name: 49a057c4
@@ -565,14 +573,6 @@ collections:
           - hint: 'Original text: Back to Homepage, key: 66ef27a'
             label: Text
             name: 66ef27a
-            widget: string
-          - hint: 'Original text: Our Guide to life in Morocco, key: -1d907d94'
-            label: Text
-            name: '-1d907d94'
-            widget: string
-          - hint: 'Original text: Find out more, key: 4ef7574e'
-            label: Text
-            name: 4ef7574e
             widget: string
       - label: Links
         name: links
@@ -628,10 +628,6 @@ collections:
           - hint: 'Original link: #Areas, key: 3f82ef23'
             label: Link
             name: 3f82ef23
-            widget: string
-          - hint: 'Original link: https://wa.me/+447826020616, key: 654863b'
-            label: Link
-            name: 654863b
             widget: string
           - hint: >-
               Original link: https://shannonlund.wixsite.com/illustration, key:
